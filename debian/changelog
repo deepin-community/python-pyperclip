@@ -1,0 +1,149 @@
+python-pyperclip (1.8.2-2) unstable; urgency=medium
+
+  * Upload to unstable
+  * debian/clean: Clean *.egg-info (Closes: #816818)
+
+ -- Sebastian Ramacher <sramacher@debian.org>  Sun, 08 Aug 2021 11:35:43 +0200
+
+python-pyperclip (1.8.2-1) experimental; urgency=medium
+
+  * New upstream release
+  * debian/control:
+    - Adopt package (Closes: #947019)
+    - Bump Standards-Version
+    - Bump debhelper compat to 13
+    - Add wl-clipboard as alternative
+    - Mark test dependencies with <!nocheck>
+  * debian/rules: Run tests again
+
+ -- Sebastian Ramacher <sramacher@debian.org>  Sun, 21 Feb 2021 15:33:14 +0100
+
+python-pyperclip (1.8.0-1) unstable; urgency=medium
+
+  * QA upload.
+
+  [ Debian Janitor ]
+  * Set upstream metadata fields: Bug-Database, Bug-Submit, Repository,
+    Repository-Browse.
+
+  [ Håvard Flaget Aasen ]
+  * New upstream version 1.8.0
+  * Update Standards-Version to 4.5.0
+  * Add Upstream-Contact in d/copyright
+
+ -- Håvard Flaget Aasen <haavard_aasen@yahoo.no>  Wed, 22 Apr 2020 20:26:37 +0200
+
+python-pyperclip (1.7.0-1) unstable; urgency=medium
+
+  * QA upload
+  * New upstream version 1.7.0
+  * Clean up, after python2 removal
+  * Change to debhelper-compat in debian/control
+  * Reformat dependencies in debian/control
+  * Change python3-qt4 to python3-pyqt5 as a possible runtime-dependency.
+  * Change python-pytest to python3-pytest
+  * Bump debhelper to 12
+  * Update Standards-Version to 4.4.1
+  * Add Rules-Requires-Root
+  * Rebase patch
+  * Add salsa CI
+
+ -- Håvard Flaget Aasen <haavard_aasen@yahoo.no>  Sat, 28 Dec 2019 18:48:04 +0100
+
+python-pyperclip (1.6.4-3) unstable; urgency=medium
+
+  * Remove python2 package
+
+ -- Sebastien Delafond <seb@debian.org>  Thu, 19 Dec 2019 15:51:47 +0100
+
+python-pyperclip (1.6.4-2) unstable; urgency=medium
+
+  [ Ondřej Nový ]
+  * d/control: Remove ancient X-Python-Version field
+  * d/control: Remove ancient X-Python3-Version field
+  * d/changelog: Remove trailing whitespaces
+
+  [ Sébastien Delafond ]
+  * Explicitely depend on dh-python
+  * Set maintainer to Debian QA Group
+
+ -- Sebastien Delafond <seb@debian.org>  Thu, 19 Dec 2019 15:19:39 +0100
+
+python-pyperclip (1.6.4-1) unstable; urgency=medium
+
+  * New upstream version 1.6.4
+  * Refresh gtk3 patch
+
+ -- Sebastien Delafond <seb@debian.org>  Sat, 04 Aug 2018 08:36:06 +0200
+
+python-pyperclip (1.6.2-1) unstable; urgency=medium
+
+  * New upstream version 1.6.2
+
+ -- Sebastien Delafond <seb@debian.org>  Thu, 21 Jun 2018 15:56:32 +0200
+
+python-pyperclip (1.6.0-2) unstable; urgency=medium
+
+  * Switch to DEP 14
+  * Update Vcs-* to point to salsa.d.o
+  * Bump-up Standards-Version
+  * Use https for copyright-format URL
+
+ -- Sebastien Delafond <seb@debian.org>  Thu, 05 Apr 2018 13:12:27 +0200
+
+python-pyperclip (1.6.0-1) unstable; urgency=medium
+
+  * New upstream version 1.6.0
+  * dos2unix pyperclip/*.py
+  * Use GTK+3 instead of GTK+2 (Closes: #884873).  Thanks to Corey Bryant
+    for the patch.
+
+ -- Sebastien Delafond <seb@debian.org>  Mon, 01 Jan 2018 14:58:23 +0100
+
+python-pyperclip (1.5.32-1) unstable; urgency=medium
+
+  * New upstream version 1.5.32
+  * Bump-up Standards-Version
+
+ -- Sebastien Delafond <seb@debian.org>  Fri, 03 Nov 2017 08:05:14 +0100
+
+python-pyperclip (1.5.27-3) unstable; urgency=medium
+
+  * Fix typo in Depends for python3 package (Closes: #867450)
+
+ -- Sebastien Delafond <seb@debian.org>  Fri, 07 Jul 2017 10:38:02 +0200
+
+python-pyperclip (1.5.27-2) unstable; urgency=medium
+
+  * Relax dependencies on python QT libraries (Closes: #816821)
+  * Do not run tests if DEB_BUILD_OPTIONS contains "nocheck" (Closes: #816815)
+
+ -- Sebastien Delafond <seb@debian.org>  Fri, 01 Jul 2016 17:44:58 +0200
+
+python-pyperclip (1.5.27-1) unstable; urgency=medium
+
+  * Update debian/watch to look for .zip files
+  * Imported Upstream version 1.5.27
+  * Bump up Standards-Version
+
+ -- Sebastien Delafond <seb@debian.org>  Fri, 01 Jul 2016 16:48:06 +0200
+
+python-pyperclip (1.5.26-1) unstable; urgency=medium
+
+  * New upstream version 1.5.26
+
+ -- Sebastien Delafond <seb@debian.org>  Wed, 10 Feb 2016 14:35:34 +0100
+
+python-pyperclip (1.5.24-1) unstable; urgency=medium
+
+  * Correct Vcs-* urls
+  * New upstream version 1.5.24
+
+ -- Sebastien Delafond <seb@debian.org>  Tue, 24 Nov 2015 16:26:19 +0100
+
+python-pyperclip (1.5.11-1) unstable; urgency=low
+
+  * New package (Closes: #789780); thanks to Sophie Brun <sophie@freexian.com>
+    for doing the entire packaging work.
+
+ -- Sebastien Delafond <seb@debian.org>  Wed, 29 Jul 2015 20:32:44 +0200

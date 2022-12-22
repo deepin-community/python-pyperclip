@@ -1,0 +1,98 @@
+From: Corey Bryant <corey.bryant@canonical.com>
+Date: Sat, 28 Dec 2019 17:31:33 +0100
+Subject: Switch from GTK+2 to GTK+3 to avoid import of mutually exclusive
+
+Bug-Ubuntu: https://bugs.launchpad.net/bugs/1722553
+Origin: https://github.com/asweigart/pyperclip/pull/111
+Forwarded: yes
+
+ modules that resulted in the following error:
+ AttributeError: When using gi.repository you must not import static modules like
+ "gobject". Please change all occurrences of "import gobject" to
+ "from gi.repository import GObject". See:
+ https://bugzilla.gnome.org/show_bug.cgi?id=709183
+---
+ src/pyperclip/__init__.py | 40 +++++++++++++++++++++++++++++++++++-----
+ 1 file changed, 35 insertions(+), 5 deletions(-)
+
+diff --git a/src/pyperclip/__init__.py b/src/pyperclip/__init__.py
+index a6cb447..2d72152 100644
+--- a/src/pyperclip/__init__.py
++++ b/src/pyperclip/__init__.py
+@@ -22,7 +22,8 @@ For example, in Debian:
+     sudo apt-get install xsel
+     sudo apt-get install wl-clipboard
+ 
+-Otherwise on Linux, you will need the gtk or PyQt5/PyQt4 modules installed.
++Otherwise on Linux, you will need the gi (GTK+ 3) or PyQt5/PyQt4 modules installed.
++gtk (GTK +2) is still supported as an older alternative to gi.
+ 
+ gtk and PyQt4 modules are not available for Python 3,
+ and this module does not work with PyGObject yet.
+@@ -153,7 +154,6 @@ def init_gtk_clipboard():
+     import gtk
+ 
+     def copy_gtk(text):
+-        global cb
+         text = _stringifyText(text) # Converts non-str values to str.
+         cb = gtk.Clipboard()
+         cb.set_text(text)
+@@ -170,6 +170,28 @@ def init_gtk_clipboard():
+     return copy_gtk, paste_gtk
+ 
+ 
++def init_gi_clipboard():
++    import gi
++    gi.require_version('Gtk', '3.0')
++    from gi.repository import Gtk, Gdk
++    cb = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
++
++    def copy_gi(text):
++        text = _stringifyText(text) # Converts non-str values to str.
++        cb.set_text(text, -1)
++        cb.store()
++
++    def paste_gi():
++        clipboardContents = cb.wait_for_text()
++        # for python 2, returns None if the clipboard is blank.
++        if clipboardContents is None:
++            return ''
++        else:
++            return clipboardContents
++
++    return copy_gi, paste_gi
++
++
+ def init_qt_clipboard():
+     global QApplication
+     # $DISPLAY should exist
+@@ -558,11 +580,18 @@ def determine_clipboard():
+     # Setup for the LINUX platform:
+     if HAS_DISPLAY:
+         try:
+-            import gtk  # check if gtk is installed
++            import gi  # check if gi is installed (for GTK+ 3)
+         except ImportError:
+-            pass # We want to fail fast for all non-ImportError exceptions.
++            try:
++                import gtk  # check if gtk is installed (fallback to GTK+ 2)
++            except ImportError:
++                pass # We want to fail fast for all non-ImportError exceptions.
++            else:
++                return init_gtk_clipboard()
+         else:
+-            return init_gtk_clipboard()
++            if gi.version_info[0] >= 3:
++                return init_gi_clipboard()
++            pass
+ 
+         if (
+                 os.environ.get("WAYLAND_DISPLAY") and
+@@ -621,6 +650,7 @@ def set_clipboard(clipboard):
+         "pbcopy": init_osx_pbcopy_clipboard,
+         "pyobjc": init_osx_pyobjc_clipboard,
+         "gtk": init_gtk_clipboard,
++        "gi": init_gi_clipboard,
+         "qt": init_qt_clipboard,  # TODO - split this into 'qtpy', 'pyqt4', and 'pyqt5'
+         "xclip": init_xclip_clipboard,
+         "xsel": init_xsel_clipboard,
